@@ -9,7 +9,7 @@ Docker 20+
 
 ## How to run app
 
-Before start app run mongodb via docker
+Before start app, run mongodb via docker
 
 `docker-compose up -d`
 
@@ -17,6 +17,8 @@ Then just run the app
 
 `npm start`
 
-Also the app have mode where applications by automatically restarting the node application when file changes in the directory are detected
+## Debug mode
+
+You can turn on the mode where the application automatically restarts your node application when file changes in the directory are detected
 
 `npm run dev`
