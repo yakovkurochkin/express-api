@@ -1,18 +1,43 @@
-version: '2'
+version: '3'
 
 services:
-  mongodb:
-    image: docker.io/bitnami/mongodb:5.0
+  app:
+    image: node:18
+    container_name: express_app
+    hostname: express_app
     ports:
-      - "27017:27017"
+        - ${API_PORT}:${API_PORT}
+    networks:
+        - myapp
     volumes:
-      - 'mongodb_data:/bitnami/mongodb'
+      - .:/var/www/express_app:cached
+    env_file:
+      - .env
+    links:
+        - mongodb
+    depends_on:
+        - mongodb
+    working_dir: /var/www/express_app
+    command: npm start
+  mongodb:
+    image: bitnami/mongodb:4.4
+    container_name: express_mongodb
+    hostname: ${MONGO_HOST}
     environment:
-      - MONGODB_USERNAME=my_user
-      - MONGODB_PASSWORD=password123
-      - MONGODB_DATABASE=my_database
-      - MONGODB_ROOT_PASSWORD=root_password123
-
+      - MONGODB_USERNAME=${MONGO_USER}
+      - MONGODB_PASSWORD=${MONGO_PASS}
+      - MONGODB_DATABASE=${MONGO_DB}
+      - MONGODB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGODB_PORT_NUMBER=${MONGO_PORT}
+    volumes:
+      - ./db:/data/db
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    networks:
+        - myapp
+networks:
+    myapp:
+        driver: bridge
 volumes:
-  mongodb_data:
+  mongodb:
     driver: local

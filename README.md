@@ -4,21 +4,22 @@ Dummy backend for API REST autotests
 
 ## Requirements
 
+```
 Nodejs 18+
 Docker 20+
+```
 
 ## How to run app
 
-Before start app, run mongodb via docker
+You need only one command
 
 `docker-compose up -d`
 
-Then just run the app
+## For local run
 
-`npm start`
+You will need to run mongodb, set it's credentinals in the `.env` file. Then tun next commands:
 
-## Debug mode
-
-You can turn on the mode where the application automatically restarts your node application when file changes in the directory are detected
-
-`npm run dev`
+```
+npm install
+npm run dev
+```
